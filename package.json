@@ -1,0 +1,29 @@
+{
+  "name": "decathlon-e2e-tests",
+  "version": "1.0.0",
+  "description": "Tests E2E pour Decathlon.fr avec Playwright, POM et Cucumber",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:bdd": "cucumber-js --require-module ts-node/register --require features/step_definitions/**/*.ts",
+    "report": "playwright show-report",
+    "codegen": "playwright codegen https://www.decathlon.fr"
+  },
+  "keywords": [
+    "playwright",
+    "e2e",
+    "decathlon",
+    "cucumber",
+    "pom",
+    "testing"
+  ],
+  "author": "Aymane - ESIEA Paris",
+  "license": "MIT",
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.0.0",
+    "@playwright/test": "^1.48.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.0"
+  }
+}
