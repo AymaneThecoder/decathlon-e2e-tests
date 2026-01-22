@@ -19,7 +19,12 @@ test("supprimer un produit du panier", async ({ page }) => {
 
   await page.getByRole("button", { name: "Ajouter au panier" }).click();
 
-  await page.getByRole("link", { name: "1 Mon panier" }).click();
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(500);
+  await page
+    .getByRole("link", { name: /Mon panier/ })
+    .first()
+    .click();
 
   await page.getByRole("button", { name: "Supprimer" }).click();
 

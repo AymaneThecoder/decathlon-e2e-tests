@@ -18,7 +18,7 @@ Tests End-to-End automatisés pour le site Decathlon.fr avec **Playwright**, **P
 
 ## 📖 À propos
 
-Projet de tests automatisés End-to-End développé dans le cadre du module de **Qualité Logiciels** à **ESIEA Paris**. Ce projet démontre la maîtrise des frameworks de test modernes et des bonnes pratiques de test automation.
+Projet de tests automatisés End-to-End développé dans le cadre du module de **Qualité Logiciels** à **ESIEA Paris**.
 
 ---
 
@@ -141,8 +141,6 @@ decathlon-e2e-tests/
 ### Tests Playwright (tous les scénarios)
 
 ```bash
-# Mode headless (sans interface graphique)
-npm test
 
 # Mode headed (avec interface graphique)
 npm run test:headed

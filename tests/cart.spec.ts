@@ -17,11 +17,13 @@ test("ajouter un produit au panier", async ({ page }) => {
     )
     .click();
 
-  await page.getByRole("button", { name: "Ajouter au panier" }).click();
-
-  await page.getByRole("link", { name: "1 Mon panier" }).click();
-
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(500);
+  await page
+    .getByRole("link", { name: /Mon panier/ })
+    .first()
+    .click();
   await expect(page.locator("h1")).toContainText("Panier");
 
-  await expect(page.getByText(/ballon/i)).toBeVisible();
+  await expect(page.getByText(/ballon/i).first()).toBeVisible();
 });

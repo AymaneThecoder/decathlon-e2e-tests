@@ -7,9 +7,22 @@ export class CartPage {
     this.page = page;
   }
 
+  // Dans pages/CartPage.ts
+
+  // Dans pages/CartPage.ts
+
   async goToCart() {
-    await this.page.getByRole("link", { name: "1 Mon panier" }).click();
-    await this.page.waitForTimeout(2000);
+    // 1. On appuie sur "Echap" pour fermer les éventuelles pop-ups (cookies, confirmation ajout, etc.)
+    await this.page.keyboard.press("Escape");
+
+    // 2. On attend une demi-seconde que l'animation de fermeture finisse
+    await this.page.waitForTimeout(500);
+
+    // 3. On clique sur le panier du header (avec une Regex pour ignorer le "1" ou "0")
+    await this.page
+      .getByRole("link", { name: /Mon panier/ })
+      .first()
+      .click();
   }
 
   async verifyCartCount(count: number) {
