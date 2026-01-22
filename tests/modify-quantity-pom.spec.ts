@@ -13,12 +13,14 @@ test("modifier la quantité avec POM", async ({ page }) => {
   await homePage.goto();
   await homePage.rejectCookies();
   await homePage.search("bonnet");
+
   await searchPage.clickFirstProduct();
   await productPage.addToCart();
 
-  await page.getByRole("link", { name: "Visualiser mon panier" }).click();
+  await cartPage.goToCart();
 
   await cartPage.increaseQuantity(2);
 
+  // Vérification
   await cartPage.verifyQuantityInCart("3");
 });

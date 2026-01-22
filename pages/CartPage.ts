@@ -1,4 +1,4 @@
-import { Page, expect } from "@playwright/test";
+import { expect, type Page } from "@playwright/test";
 
 export class CartPage {
   readonly page: Page;
@@ -7,22 +7,14 @@ export class CartPage {
     this.page = page;
   }
 
-  // Dans pages/CartPage.ts
-
-  // Dans pages/CartPage.ts
-
   async goToCart() {
-    // 1. On appuie sur "Echap" pour fermer les éventuelles pop-ups (cookies, confirmation ajout, etc.)
-    await this.page.keyboard.press("Escape");
-
-    // 2. On attend une demi-seconde que l'animation de fermeture finisse
-    await this.page.waitForTimeout(500);
-
-    // 3. On clique sur le panier du header (avec une Regex pour ignorer le "1" ou "0")
-    await this.page
-      .getByRole("link", { name: /Mon panier/ })
-      .first()
-      .click();
+    console.log("Navigation directe vers le panier via URL...");
+    await this.page.goto("https://www.decathlon.fr/checkout/cart", {
+      timeout: 60000,
+    });
+    await expect(this.page.locator("h1")).toContainText("Panier", {
+      timeout: 10000,
+    });
   }
 
   async verifyCartCount(count: number) {
@@ -34,18 +26,28 @@ export class CartPage {
   }
 
   async removeFromCart() {
-    await this.page.getByRole("button", { name: "Supprimer" }).click();
+    await this.page.getByRole("button", { name: "Supprimer" }).first().click();
   }
 
   async verifyCartEmpty() {
     await expect(this.page.getByText("Votre panier est vide")).toBeVisible();
   }
+
   async increaseQuantity(times: number = 1) {
+    const plusButton = this.page
+      .getByRole("button", { name: "Plus", exact: true })
+      .first();
+    const quantityInput = this.page
+      .locator('input[type="number"]')
+      .or(this.page.locator('[aria-label="Quantité"]'));
+
     for (let i = 0; i < times; i++) {
-      await this.page
-        .getByRole("button", { name: "Plus", exact: true })
-        .click();
-      await this.page.waitForTimeout(1000);
+      const currentValue = await quantityInput.inputValue();
+      const nextValue = (parseInt(currentValue) + 1).toString();
+
+      await plusButton.click({ force: true });
+
+      await expect(quantityInput).toHaveValue(nextValue, { timeout: 10000 });
     }
   }
 

@@ -17,21 +17,21 @@ test("modifier la quantité d'un produit dans le panier", async ({ page }) => {
     .click();
 
   await page.getByRole("button", { name: "Ajouter au panier" }).click();
-  await page.keyboard.press("Escape");
-  await page.waitForTimeout(500);
-  await page
-    .getByRole("link", { name: /Mon panier/ })
-    .first()
-    .click();
 
-  await page.getByRole("button", { name: "Plus", exact: true }).click();
-  await page.waitForTimeout(1000); // Attendre la mise à jour
+  // NAVIGATION DIRECTE
+  await page.goto("https://www.decathlon.fr/checkout/cart");
+  await expect(page.locator("h1")).toContainText("Panier");
 
-  await page.getByRole("button", { name: "Plus", exact: true }).click();
-  await page.waitForTimeout(1000); // Attendre la mise à jour
+  await page.getByRole("button", { name: "Plus", exact: true }).first().click();
+  await page.waitForTimeout(1000); // Petite pause pour l'API
 
+  await page.getByRole("button", { name: "Plus", exact: true }).first().click();
+  await page.waitForTimeout(1000);
+
+  // Vérification
   const quantityDisplay = page
     .locator('input[type="number"]')
     .or(page.locator('[aria-label="Quantité"]'));
+
   await expect(quantityDisplay).toHaveValue("3");
 });
